@@ -2,15 +2,8 @@
   "name": "@mcp-nexus/server",
   "version": "0.1.0",
   "description": "MCP Nexus Server",
-  "type": "module",
-  "bin": {
-    "mcp-server": "build/index.js"
-  },
-  "files": [
-    "build"
-  ],
+  "main": "build/index.js",
   "scripts": {
-    "postinstall": "npm run build",
     "build": "tsc && esbuild src/index.ts --bundle --platform=node --outfile=build/index.js --format=esm && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "watch": "tsc --watch",
     "inspector": "npx @modelcontextprotocol/inspector build/index.js"
