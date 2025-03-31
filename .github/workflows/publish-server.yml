@@ -13,9 +13,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    defaults:
-      run:
-        working-directory: mcp-nexus-server
+        
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,6 +21,8 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
+        working-directory: mcp-nexus-server
       - run: npm publish --provenance --access public
+        working-directory: mcp-nexus-server
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
