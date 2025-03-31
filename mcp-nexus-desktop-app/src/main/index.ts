@@ -2,8 +2,49 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { Client } from '@modelcontextprotocol/sdk/client/index.js'
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
-function createWindow(): void {
+async function startOfflineServer(): Promise<void> {
+  const transport = new StdioClientTransport({
+    command: 'node',
+    args: [join(__dirname, '../../node_modules/@mcp-nexus/server/build/index.js')]
+  })
+
+  const client = new Client(
+    {
+      name: 'mcp-nexus-desktop-client',
+      version: '1.0.0'
+    },
+    {
+      capabilities: {
+        prompts: {},
+        resources: {},
+        tools: {}
+      }
+    }
+  )
+
+  try {
+    await client.connect(transport)
+    console.log('MCP client connected successfully')
+
+    // List available tools
+    const tools = await client.listTools()
+    console.log('Available tools:', tools)
+  } catch (err) {
+    console.error('\n\t\tERROR: MCP client connection failed!', err)
+  }
+
+  // Handle app exit
+  process.on('exit', function () {
+    transport.close()
+  })
+}
+
+async function createWindow(): Promise<void> {
+  await startOfflineServer();
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
@@ -38,7 +79,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -52,12 +93,12 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
-  createWindow()
+  await createWindow()
 
-  app.on('activate', function () {
+  app.on('activate', async function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) await createWindow()
   })
 })
 
