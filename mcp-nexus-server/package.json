@@ -1,6 +1,6 @@
 {
   "name": "@mcp-nexus/server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP Nexus Server",
   "main": "build/index.js",
   "scripts": {
