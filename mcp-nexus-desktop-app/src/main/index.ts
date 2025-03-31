@@ -5,7 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
-async function startOfflineServer(): Promise<void> {
+async function startMcpClient(): Promise<void> {
   const transport = new StdioClientTransport({
     command: 'node',
     args: [join(__dirname, '../../node_modules/@mcp-nexus/server/build/index.js')]
@@ -43,7 +43,7 @@ async function startOfflineServer(): Promise<void> {
 }
 
 async function createWindow(): Promise<void> {
-  await startOfflineServer();
+  await startMcpClient();
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
