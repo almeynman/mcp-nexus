@@ -1,0 +1,27 @@
+{
+  "name": "@mcp-nexus/server",
+  "version": "0.1.0",
+  "description": "MCP Nexus Server",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "mcp-server": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "scripts": {
+    "build": "tsc && esbuild src/index.ts --bundle --platform=node --outfile=build/index.js --format=esm && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "watch": "tsc --watch",
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.8.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.28",
+    "esbuild": "^0.20.2",
+    "typescript": "^5.8.2"
+  }
+}
