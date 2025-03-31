@@ -4,7 +4,7 @@
   "description": "MCP Nexus Server",
   "type": "module",
   "bin": {
-    "mcp-server": "./build/index.js"
+    "mcp-server": "build/index.js"
   },
   "files": [
     "build"
@@ -29,6 +29,6 @@
     "url": "git+https://github.com/almeynman/mcp-nexus.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   }
 }
