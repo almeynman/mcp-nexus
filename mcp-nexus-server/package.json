@@ -2,7 +2,7 @@
   "name": "@mcp-nexus/server",
   "version": "0.1.2",
   "description": "MCP Nexus Server",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build:ts": "tsc -p tsconfig.build.json",
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm && node -e \"require('fs').chmodSync('dist/index.js', '755')\"",
